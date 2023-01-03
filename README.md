@@ -1,2 +1,2 @@
 # Data-Quality-Framework
-Data Quality checks using PySpark
+This repository contains a PySpark-based data quality framework that calculates metrics such as completeness, freshness, uniqueness, timeliness, integrity, and accuracy to assess the quality of a dataset. A dummy dataset is included in the datasets folder to demonstrate the use of the framework. To understand the code in this repository, please follow the execution workflow.
