@@ -48,6 +48,12 @@ def accuracy(df, accuracy_cols, regex):
         ]
         for x in accuracy_cols
     ]
+    for i in accuracy_list:
+        if i[2] != 0:
+            i[4] = "The column " + str(i[3]) + " has " + str(i[2]) + " inaccurate values"
+            i[5] = "Fail"
+        else:
+            i[5] = "Pass"
     return accuracy_list
 
 def integrity(df_f, df_d, int_cols):
