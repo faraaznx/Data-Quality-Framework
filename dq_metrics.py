@@ -70,10 +70,10 @@ def integrity(df_f, df_d, d_col, f_col):
     i_list[2] = (row_counts - i_list[3]) * 100 / row_counts
     if i_list[3] != 0:
         i_list[4] = (
-            "The column"
+            "The column "
             + i_list[1]
-            + "has"
+            + " has "
             + str(i_list[3])
-            + "values that are not present in its parent table "
+            + " values that are not present in its parent table "
         )
     return i_list
