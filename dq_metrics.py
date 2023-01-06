@@ -1,13 +1,5 @@
-from pyspark.sql.functions import *
-from pyspark.sql.types import StringType,StructType,StructField,ArrayType,FloatType,DoubleType,DecimalType, IntegerType
-import json
-import re
-import ast
-import sys
-import datetime
-from pyspark.sql import SparkSession
-from pyspark.sql import Window
-from datetime import date, datetime
+from pyspark.sql.functions import col
+
 
 def completeness(df, completeness_cols):
     """ Space for docstring"""
