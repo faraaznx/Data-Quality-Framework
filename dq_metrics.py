@@ -12,6 +12,7 @@ from datetime import date, datetime
 def completeness(df, completeness_cols):
     """ Space for docstring"""
 
+
     # Calculating the not null percentages of every column and saving the values in a list
 
     completeness_list = [
@@ -56,3 +57,6 @@ def accuracy(df, accuracy_cols, regex):
         for x in accuracy_cols
     ]
     return accuracy_list
+
+def integrity(df_f, df_d, int_cols):
+    return None
