@@ -60,11 +60,21 @@ def accuracy(df, accuracy_cols, regex):
     ]
     for i in accuracy_list:
         if i[2] != 0:
-            i[4] = "The column " + str(i[3]) + " has " + str(i[2]) + " inaccurate values"
+            i[4] = "The column " + str(i[1]) + " has " + str(i[3]) + " inaccurate values"
             i[5] = "Fail"
         else:
             i[5] = "Pass"
-    return accuracy_list
+    return spark.createDataFrame(
+        accuracy_list,
+        [
+            "metric",
+            "column_name",
+            "metric value (%)",
+            "faulty_records_count",
+            "comment",
+            "status",
+        ],
+    )
 
 def integrity(df_f, df_d, d_col, f_col):
     # This can only take one set of integrity arg. What if i have multiple cols to check integrity and they link to more than 2 tables
@@ -84,6 +94,6 @@ def integrity(df_f, df_d, d_col, f_col):
             + i_list[1]
             + " has "
             + str(i_list[3])
-            + " values that are not present in its parent table "
+            + " values that are not present in its parent table."
         )
     return i_list
