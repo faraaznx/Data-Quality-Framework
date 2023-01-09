@@ -25,12 +25,22 @@ def completeness(df, completeness_cols):
     ]
     for i in completeness_list:
         if i[2] != 0:
-            i[4] = "The column " + str(i[3]) + " has " + str(i[2]) + " Null values"
+            i[4] = "The column " + str(i[1]) + " has " + str(i[3]) + " Null values"
             i[5] = "Fail"
         else:
             i[5] = "Pass"
 
-    return completeness_list
+    return spark.createDataFrame(
+        completeness_list,
+        [
+            "metric",
+            "column_name",
+            "metric value (%)",
+            "faulty_records_count",
+            "comment",
+            "status",
+        ],
+    )
 
 def accuracy(df, accuracy_cols, regex):
     accuracy_list = [
