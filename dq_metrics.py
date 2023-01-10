@@ -78,22 +78,42 @@ def accuracy(df, accuracy_cols, regex):
 
 def integrity(df_f, df_d, d_col, f_col):
     # This can only take one set of integrity arg. What if i have multiple cols to check integrity and they link to more than 2 tables
+    # df_f.select(col(f_col)).distinct().exceptAll(df_d.select(col(d_col))).count()
     row_counts = df_f.count()
     i_list = [
-        "integrity",
-        str(f_col),
-        0,
-        df_f.select(col(f_col)).distinct().exceptAll(df_d.select(col(d_col))).count(),
-        "",
-        "",
+        [
+            "integrity",
+            f_col,
+            0,
+            df_f.select(col(f_col))
+            .distinct()
+            .exceptAll(df_d.select(col(d_col)))
+            .count(),
+            "",
+            "",
+        ]
     ]
-    i_list[2] = (row_counts - i_list[3]) * 100 / row_counts
-    if i_list[3] != 0:
-        i_list[4] = (
-            "The column "
-            + i_list[1]
-            + " has "
-            + str(i_list[3])
-            + " values that are not present in its parent table."
+    i_list[0][2] = (row_counts - i_list[0][3]) * 100 / row_counts
+    if i_list[0][3] != 0:
+        i_list[0][4] = (
+            "The column `"
+            + i_list[0][1]
+            + "` has "
+            + str(i_list[0][3])
+            + " values that are not present in its parent table"
         )
-    return i_list
+        i_list[0][5] = "Fail"
+    else:
+        i_list[0][5] = "Pass"
+
+    return spark.createDataFrame(
+        i_list,
+        [
+            "metric",
+            "column_name",
+            "metric value (%)",
+            "faulty_records_count",
+            "comment",
+            "status",
+        ],
+    )
