@@ -117,3 +117,35 @@ def integrity(df_f, df_d, d_col, f_col):
             "status",
         ],
     )
+def uniqueness(df, uniq_cols):
+    """Space for docstring"""
+    row_counts = df.count()
+    uniqueness_list = [
+        [
+            "uniqueness",
+            str(x),
+            (row_counts - df.select(col(x)).distinct().count()) * 100 / row_counts,
+            df.select(col(x)).distinct().count(),
+            "",
+            "",
+        ]
+        for x in uniq_cols
+    ]
+    
+    for i in uniqueness_list:
+            if i[2] != 0:
+                i[4] = "The Column `" + str(i[1]) + "` has " + str(i[3]) + " Inaccurate values"
+                i[5] = "N/A"
+            else:
+                i[5] = "N/A"
+    return spark.createDataFrame(
+        uniqueness_list,
+        [
+            "metric",
+            "column_name",
+            "metric value (%)",
+            "faulty_records_count",
+            "comment",
+            "status"
+        ]
+    )
